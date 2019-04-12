@@ -1,25 +1,31 @@
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import org.apache.spark.rdd.RDD
 
-object HelloScala {
+object HelloScala extends App{
 
-  def main(args: Array[String]) {
+  val pathToFile = "src/data.txt"
 
-    //Create a SparkContext to initialize Spark
+  /**
+    *  Load the data from the text file and return an RDD of words
+    */
+  def loadData(): RDD[String] = {
     val conf = new SparkConf()
-    conf.setMaster("local")
-    conf.setAppName("Word Count")
-    val sc = new SparkContext(conf)
+      .setAppName("Wordcount")
+      .setMaster("local[*]") // here local mode. And * means you will use as much as you have cores.
 
-    // Load the text into a Spark RDD, which is a distributed representation of each line of text
-    val textFile = sc.textFile("src/data.txt")
+    val sc = SparkContext.getOrCreate(conf)
+    sc.textFile(pathToFile)
+      .flatMap(_.split("\n"))
+  }
 
-    //word count
-    val counts = textFile.flatMap(line => line.split("\n"))
+  def wordcount(): RDD[(String, Int)] = {
+    loadData()
       .map(word => (word, 1))
       .reduceByKey(_ + _)
-
-    counts.foreach(println)
-    System.out.println("Total words: " + counts.count());
   }
+
+  wordcount().foreach(println)
+
 
 }
