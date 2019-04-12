@@ -11,8 +11,8 @@ object HelloScala extends App{
     */
   def loadData(): RDD[String] = {
     val conf = new SparkConf()
-      .setAppName("Wordcount")
-      .setMaster("local[*]") // here local mode. And * means you will use as much as you have cores.
+      .setAppName("Analysis")
+      .setMaster("local[*]")
 
     val sc = SparkContext.getOrCreate(conf)
     sc.textFile(pathToFile)
@@ -25,7 +25,20 @@ object HelloScala extends App{
       .reduceByKey(_ + _)
   }
 
-  wordcount().foreach(println)
+  def splitByParameter(nb: Int): RDD[String] = {
+    loadData()
+      .map(_.split(":"))
+      .filter()
+  }
 
+
+  def distinctBus(): RDD[String] = {
+    splitByParameter(2)
+      .distinct()
+  }
+
+  wordcount().foreach(println)
+  splitByParameter(2).foreach(println)
+  distinctBus().foreach(println)
 
 }
