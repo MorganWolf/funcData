@@ -37,7 +37,7 @@ object HelloScala extends App{
       .map(x => (x(1),x(6)))
       .filter(_._2 != "Normal")
       .map(chauffeur => (chauffeur, 1))
-      .reduceByKey(_ + _)3200
+      .reduceByKey(_ + _)
   }
 
   /** return :  id_Arret, nb passager */
