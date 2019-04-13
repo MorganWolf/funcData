@@ -4,7 +4,7 @@ import org.apache.spark.rdd.RDD
 
 object HelloScala extends App{
 
-  val pathToFile = "src/data.txt"
+  val pathToFile = "../FunctionnalDataProgramming-master/src/main/resources/result.txt"
 
   /**
     *  Load the data from the text file and return an RDD of words
@@ -58,11 +58,9 @@ object HelloScala extends App{
       .reduceByKey(math.max(_, _))
   }
 
-
-  //println(splitByParameter(0).distinct().count())
+  //FONCTIONS 
   //splitByParameter(1).foreach(println)
   //passagerParArret().take(1).foreach(println)
-
-  kmParBus().foreach(println)
+  //kmParBus().foreach(println)
 
 }
