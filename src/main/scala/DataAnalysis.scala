@@ -25,20 +25,23 @@ object HelloScala extends App{
       .reduceByKey(_ + _)
   }
 
-  def splitByParameter(nb: Int): RDD[String] = {
+  def splitByParameter(nb: Int): RDD[String]  = {
     loadData()
-      .map(_.split(":"))
-      .filter()
+      .map(_.split(':')(nb))
   }
 
 
-  def distinctBus(): RDD[String] = {
-    splitByParameter(2)
-      .distinct()
+  def accidentParChauffeur(nb: Int): RDD[((String, String), Int)]  = {
+    loadData()
+      .map(_.split(':'))
+      .map(x => (x(1),x(6)))
+      .filter(_._2 != "Normal")
+      .map(chauffeur => (chauffeur, 1))
+      .reduceByKey(_ + _)
   }
 
-  wordcount().foreach(println)
-  splitByParameter(2).foreach(println)
-  distinctBus().foreach(println)
+
+
+  splitByParameter(1).foreach(println)
 
 }

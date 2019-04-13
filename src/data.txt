@@ -1,5 +1,5 @@
 Bus1:Chauffeur1:0:15:22:3000:Normal:100
-Bus1:Chauffeur1:0:15:22:3000:Normal:100
-Bus1:Chauffeur1:2:15:22:3000:Normal:100
-Bus1:Chauffeur1:3:15:22:3000:Normal:100
-Bus1:Chauffeur1:4:15:22:3000:Normal:100
+Bus1:Chauffeur1:0:15:22:3000:Accident:100
+Bus1:Chauffeur1:2:15:22:3000:Creve:100
+Bus1:Chauffeur1:3:15:22:3000:Accident:100
+Bus1:Chauffeur2:4:15:22:3000:Accident:100
