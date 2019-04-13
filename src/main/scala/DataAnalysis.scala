@@ -25,20 +25,44 @@ object HelloScala extends App{
       .reduceByKey(_ + _)
   }
 
-  def splitByParameter(nb: Int): RDD[String] = {
+  def splitByParameter(nb: Int): RDD[String]  = {
     loadData()
-      .map(_.split(":"))
-      .filter()
+      .map(_.split(':')(nb))
+  }
+
+  /** return : chauffeur, type_accident, nombre */
+  def accidentParChauffeur(nb: Int): RDD[((String, String), Int)]  = {
+    loadData()
+      .map(_.split(':'))
+      .map(x => (x(1),x(6)))
+      .filter(_._2 != "Normal")
+      .map(chauffeur => (chauffeur, 1))
+      .reduceByKey(_ + _)3200
+  }
+
+  /** return :  id_Arret, nb passager */
+  def passagerParArret(): RDD[(String, Int)]  = {
+    loadData()
+      .map(_.split(':'))
+      .map(x => (x(2),x(3).toInt))
+      .reduceByKey(_ + _)
+      .sortBy(_._2, ascending = false)
   }
 
 
-  def distinctBus(): RDD[String] = {
-    splitByParameter(2)
-      .distinct()
+  /** return : id_bus, km*/
+  def kmParBus(): RDD[(String, Int)] =  {
+    loadData()
+      .map(_.split(':'))
+      .map(x => (x(0),x(5).toInt))
+      .reduceByKey(math.max(_, _))
   }
 
-  wordcount().foreach(println)
-  splitByParameter(2).foreach(println)
-  distinctBus().foreach(println)
+
+  //println(splitByParameter(0).distinct().count())
+  //splitByParameter(1).foreach(println)
+  //passagerParArret().take(1).foreach(println)
+
+  kmParBus().foreach(println)
 
 }
